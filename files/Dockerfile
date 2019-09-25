@@ -67,8 +67,8 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-# Copy BRAMS to container
-COPY brams.tgz /root # files: tables/, src/, doc/, build/, variables.csv, README, RAMSIN_meteo-only, RAMSIN_meteo-chem, jules.in, HISTORICO, gfdl_cloud_microphysics_nml
+# Copy BRAMS to container (files: tables/, src/, doc/, build/, variables.csv, README, RAMSIN_meteo-only, RAMSIN_meteo-chem, jules.in, HISTORICO, gfdl_cloud_microphysics_nml)
+COPY brams.tgz /root
 
 # Making BRAMS' Model
 RUN cd $HOME && tar -zxvf brams.tgz && cd BRAMS && sed -i 's/ICFILEPREFIX/ICFILETYPE/' RAMSIN_meteo-* && cd build && \
