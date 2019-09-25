@@ -1,0 +1,43 @@
+version: "3.4"
+services:
+  workers:
+    image: lraraujo/brams:5.3
+    user: root
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+      placement:
+        preferences:
+          - spread: node.labels.datacenter
+    volumes:
+      - ./datain:/root/bin/datain
+      - ./dataout:/root/bin/dataout
+      - ./shared_datain:/root/bin/shared_datain
+    networks:
+      - bramsnet
+  master:
+    image: lraraujo/brams:5.3
+    user: root
+    deploy:
+      mode:
+        global
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+      - published: 2022
+        target: 22
+        mode: host
+    volumes:
+      - ./datain:/root/bin/datain
+      - ./dataout:/root/bin/dataout
+      - ./shared_datain:/root/bin/shared_datain
+    networks:
+      - bramsnet
+networks:
+  bramsnet:
+    driver: overlay
+    attachable: true
