@@ -98,7 +98,7 @@ Esse recurso é configurado para a execução em múltiplos *hosts*, sendo desca
 
 #### BRAMS
 
-Na sequência, realiza-se uma cópia da versão do modelo disponibilizada, ao lado dessa cópia estão os arquivos que estão sendo disponibilizados e serão utilizados. Após a cópia, o modelo é configurado, compilado e instalado.
+Na sequência, realiza-se uma cópia da versão do modelo disponibilizada. Acima dessa cópia, há um comentário com os arquivos que estão sendo disponibilizados e serão utilizados. Após a cópia, o modelo é configurado, compilado e instalado.
 
 #### Finalização
 
@@ -106,13 +106,13 @@ Após os passos anteriores, há a cópia de um *script* e uma breve limpeza de a
 
 ### Construção
 
-Após finalizar o Dockerfile, a imagem pode ser construída para ficar disponível localmente. O comando a ser utilizado, no diretório onde se encontra o Dockerfile, é o seguinte:
+Após finalizar o Dockerfile, a imagem pode ser construída para ficar disponível localmente. Abaixo, está o comando a ser executado para construir a imagem, no diretório onde encontra-se o Dockerfile.
 
 ```
 docker build -t <name> .
 ```
 
-Após a construção da imagem, ela pode ser vista através do comando `docker images`. Informações como o tamanho da imagem também aparecerão com a utilização desse comando.
+Após a construção da imagem, ela pode ser vista através do comando `docker images`. Informações como o tamanho da imagem e a data de criação também aparecerão com a utilização desse comando.
 
 ## Executando em um único host
 
@@ -144,7 +144,7 @@ docker run --rm -v /absolute/path/to/datain:/root/bin/datain -v /absolute/path/t
 
 #### Script de execução
 
-Dentro do *container*, há um *script* para facilitar a execução, principalmente em execução com múltiplos *hosts*. Para o caso com um único *host* é importante definir bem os parâmetros do *script* e, para tal, vamos abrir o *script* para ver como se dá seu fluxo de execução. O arquivo se encontra em [run-brams](brams/5.3/run-brams).
+Dentro do *container*, há um *script* para facilitar a execução, principalmente em execução com múltiplos *hosts*. Para o caso com um único *host* é importante definir bem os parâmetros do *script* e, para tal, vamos abrir o *script* para ver como se dá seu fluxo de execução. O arquivo se encontra em [run-brams](files/run-brams.sh).
 
 ### Saída
 
@@ -214,6 +214,8 @@ Com o arquivo comprimido, a imagem pode ser construída utilizando o Dockerfile.
 ```
 docker run -it -v /absolute/path/to/datain:/root/bin/datain -v /absolute/path/to/dataout:/root/bin/dataout -v /absolute/path/to/shared_datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /bin/bash
 ```
+
+Para copiar um código fonte específico para o *container*, é possível utilizar o comando `docker cp` seguindo a [documentação](https://docs.docker.com/engine/reference/commandline/cp/) do comando. A partir disso, ele pode ser editado, compilado e executado dentro desse ambiente.
 
 #### Modificações
 
