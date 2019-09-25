@@ -152,7 +152,7 @@ Como abordado acima, a utilização de *volumes* acarreta em compartilhamento de
 
 ## Executando em múltiplos hosts
 
-Nesse tópico, será explorado a execução do BRAMS em múltiplos *hosts*. A execução em um múltiplos *hosts* utiliza mais de um *container*, dependendo da quantidade de *hosts* existentes. O lançamento dos *containers* ocorrerá de maneira automatizada, utilizando alguns recursos oferecidos pelo Docker.
+Nesse tópico, será explorado a execução do BRAMS em múltiplos *hosts*. A execução em múltiplos *hosts* utiliza mais de um *container*, dependendo da quantidade de *hosts* existentes. O lançamento dos *containers* ocorrerá de maneira automatizada, utilizando alguns recursos oferecidos pelo Docker.
 
 ### Recursos
 
@@ -162,9 +162,9 @@ Nesse tópico, será explorado a execução do BRAMS em múltiplos *hosts*. A ex
 
 ### Execução
 
-Como essa etapa é recomendada para execução em *clusters* e esse ambiente não foi configurado para o tutorial, ela será tratada de maneira visual para servir como uma base para experimentos futuros dos usuários. Para esse exemplo, temos 4 *hosts*.
+Como essa etapa é recomendada para execução em *clusters* e esse ambiente não foi configurado para o tutorial, ela será tratada de maneira visual para servir como uma base para experimentos futuros dos usuários. Para esse exemplo, temos 4 *hosts* com 4 vCPUs cada.
 
-* Inicialmente, utilizaremos o Docker Swarm. Assim, escolhemos um do nós como *manager* para iniciar o *swarm*, enquanto os outros nós se conectarão ao *swarm* como *workers*. Para a execução *multi-host* do BRAMS, todos os *hosts*, seja *manager* ou *worker* desempenharão papel semelhante, o único porém é que no *manager* executaremos alguns comandos para verificar o estado do *swarm* e dos *containers*. Abaixo, o *swarm* é iniciado no *host* escolhido como *manager* e os outros três *hosts* entram no *swarm* como *workers*.
+* Inicialmente, utilizaremos o Docker Swarm. Assim, escolhemos um do nós como *manager* para iniciar o *swarm*, enquanto os outros nós se conectarão ao *swarm* como *workers*. Para a execução *multi-host* do BRAMS, todos os *hosts* (*manager* ou *worker*) desempenharão papel semelhante, o único porém é que no *manager* executaremos alguns comandos para verificar o estado do *swarm* e dos *containers* a medida que o ambiente será configurado. Abaixo, o *swarm* é iniciado no *host* escolhido como *manager* e os outros três *hosts* entram no *swarm* como *workers*.
 
 ![swarminit](figures/swarminit.png)
 ![swarmjoin1](figures/swarmjoin1.png)
@@ -175,7 +175,7 @@ Como essa etapa é recomendada para execução em *clusters* e esse ambiente nã
 
 ![nodels](figures/nodels.png)
 
-* Após a verificação apresentar a saída esperada, estamos prontos para distribuir os *containers* pelos *hosts* membros do *swarm*. Ao invés da utilização de um simples comando `docker run`, será utilizado um arquivo de especificação para os *containers* a serem lançados, do *host manager*. 
+* Após a verificação apresentar a saída esperada, estamos prontos para distribuir os *containers* pelos *hosts* membros do *swarm*. Ao invés da utilização de um simples comando `docker run`, será utilizado um [arquivo de especificação](files/docker-compose.yml) para os *containers* a serem lançados, do *host manager*. 
 
 ![stackdeploy](figures/stackdeploy.png)
 
@@ -187,11 +187,11 @@ Como essa etapa é recomendada para execução em *clusters* e esse ambiente nã
 
 ![serviceps](figures/serviceps.png)
 
-* Assim que todos os *services*/*containers* estiverem executando e distribuídos por todos os *hosts*, podemos acessar o *container* definido como *master* no arquivo [docker-compose.yml](), através do *host manager*. É a partir da execução de um *script* dentro desse *container*, que ele localizará o IP dos outros *containers* nos outros *hosts* e com a execução do MPI passando um *hostfile* como parâmetro, a execução será distribuída pelos outros *hosts* nos *containers*
+* Assim que todos os *services*/*containers* estiverem executando e distribuídos por todos os *hosts*, podemos acessar o *container* definido como *master* no arquivo [docker-compose.yml](files/docker-compose.yml), através do *host manager*. É a partir da execução de um *script* dentro desse *container*, que ele localizará o IP dos outros *containers* nos outros *hosts*. Com a execução do MPI, tendo um *hostfile* como parâmetro, a execução será distribuída pelos outros *hosts* nos *containers*
 
 ![sshrun](figures/sshrun.png)
 
-* Após o final da execução, a saída encontra-se no *host manager*, no diretório local especificado no [docker-compose.yml](). A partir desse ponto, podemos encerrar a execução dos *services*/*containers* e os *hosts* podem deixar o *swarm*.
+* Após o final da execução, a saída encontra-se no *host manager*, no diretório local especificado no [docker-compose.yml](files/docker-compose.yml). A partir desse ponto, podemos encerrar a execução dos *services*/*containers* e os *hosts* podem deixar o *swarm*.
 
 ![rmleave](figures/rmleave.png)
 
@@ -199,11 +199,11 @@ Isso encerra o processo de execução do BRAMS em um *cluster* de *containers* u
 
 ## Docker como ambiente de testes
 
-Como um dos intuitos da criação desse ambiente de execução para o BRAMS é a própria pesquisa, seguem dois métodos para utilizar os *containers* como um ambiente de testes. Esse ambiente que os *containers* oferecem tem características cruciais para esse tipo de trabalho, como o isolamento e a compatibilidade. 
+Como um dos intuitos da criação desse ambiente de execução para o BRAMS é a própria pesquisa, seguem dois métodos para utilizar os *containers* como um ambiente de testes. O ambiente de *containers* oferece características cruciais para esse tipo de trabalho, como o isolamento e a compatibilidade. 
 
 ### Construindo uma nova imagem
 
-Para tal, o código fonte pode ser editado externamente ao *container* e, ao concluir essa etapa, basta comprimir os arquivos necessários, como especificado no [Dockerfile](files/Dockerfile#L71).
+Para tal, o código fonte pode ser editado externamente ao *container* e, ao concluir essa etapa, basta comprimir os arquivos necessários, que encontram-se listados no [Dockerfile](files/Dockerfile#L70).
 
 Com o arquivo comprimido, a imagem pode ser construída utilizando o Dockerfile. Caso uma imagem semelhante já tenha sido construída, o Docker salva o contexto de construção até o ponto em que o Dockerfile ou arquivos a serem copiados foram alterados, evitando que todos os passos anteriores a isso precisem ser realizados novamente. Após a construção, a imagem estará pronta para execução.
 
