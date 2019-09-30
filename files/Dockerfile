@@ -78,7 +78,7 @@ RUN cd $HOME && tar -zxvf brams.tgz && cd BRAMS && sed -i 's/ICFILEPREFIX/ICFILE
 COPY run-brams /root
 
 # Clean up unnecessary files and give execution permission to script
-RUN cd $HOME && rm -rf install/ BRAMS/ brams.tgz && apt-get autoremove && apt-get clean && chmod +x run-brams
+RUN cd $HOME && rm -rf install/ BRAMS/ && apt-get autoremove && apt-get clean && chmod +x run-brams
 
 #
 WORKDIR /root

@@ -164,6 +164,8 @@ Nesse tópico, será explorado a execução do BRAMS em múltiplos *hosts*. A ex
 
 Como essa etapa é recomendada para execução em *clusters* e esse ambiente não foi configurado para o tutorial, ela será tratada de maneira visual para servir como uma base para experimentos futuros dos usuários. Para esse exemplo, temos 4 *hosts* com 4 vCPUs cada.
 
+A imagem do BRAMS e os arquivos de entrada para os *volumes* devem estar em todos os *hosts* para o funcionamento desse modo de execução.
+
 * Inicialmente, utilizaremos o Docker Swarm. Assim, escolhemos um do nós como *manager* para iniciar o *swarm*, enquanto os outros nós se conectarão ao *swarm* como *workers*. Para a execução *multi-host* do BRAMS, todos os *hosts* (*manager* ou *worker*) desempenharão papel semelhante, o único porém é que no *manager* executaremos alguns comandos para verificar o estado do *swarm* e dos *containers* a medida que o ambiente será configurado. Abaixo, o *swarm* é iniciado no *host* escolhido como *manager* e os outros três *hosts* entram no *swarm* como *workers*.
 
 ![swarminit](figures/swarminit.png)
@@ -217,6 +219,8 @@ docker run -it -v /absolute/path/to/datain:/root/bin/datain -v /absolute/path/to
 
 Para copiar um código fonte específico para o *container*, é possível utilizar o comando `docker cp` seguindo a [documentação](https://docs.docker.com/engine/reference/commandline/cp/) do comando. A partir disso, ele pode ser editado, compilado e executado dentro desse ambiente.
 
+Outro mecanismo de obter código atualizado dentro do *container* é utilizar a técnica de *volumes*, já abordada durante o tutorial. Nesse caso, cuidados devem ser tomados, visto que alterações em qualquer um dos *hosts* (local ou *container*) acarretarão em alterações no outro.
+
 #### Modificações
 
 * Remoção de `--rm`: A modificação do código é um processo contínuo e, para tal, o *container* provavelmente deverá ser utilizado várias vezes. Assim, esse parâmetro foi removido para que o *container* permaneça disponível após seu encerramento. Para retomar o trabalho em um *container* encerrado, utilizado os comandos abaixo.
@@ -243,3 +247,20 @@ docker push <username>/<name>:<version>
 ```
 
 Para obter a imagem em outros ambientes, basta executar `docker pull <username>/<name>:<version>`.
+
+### Compartilhando um container
+
+Além do compartilhamento da imagem, é possível compartilhar o estado de um *container*. Essa opção é realizada através do comando `docker export` ([Documentação](https://docs.docker.com/engine/reference/commandline/export/)), onde o *container* é armazenado em um arquivo compactado e pode ser executado por outro usuário, em outro ambiente.
+
+Para exportar (exporta um *container* para um arquivo compactado):
+
+```
+docker export <name> | gzip > <name>.gz
+```
+
+Para importar e executar (importa os dados do arquivo compactado para criar uma imagem e então executá-la em um *container*):
+
+```
+zcat <name>.gz | docker import - <name>
+docker run -it <name> /bin/bash
+```
