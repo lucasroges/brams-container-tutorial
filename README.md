@@ -227,7 +227,7 @@ Com o arquivo comprimido, a imagem pode ser construída utilizando o Dockerfile.
 
 ### Dentro do *container*
 
-É possível utilizar o *container* de maneira interativa, como um `bash`, para utilização interna. Para tal, é necessário fazer pequenas alterações no comando `docker run`. O comando é apresentado abaixo e as mudanças discutidas logo após.
+É possível utilizar o *container* de maneira interativa, com um interpretador de comandos, para utilização interna. Para tal, é necessário fazer pequenas alterações no comando `docker run`. O comando é apresentado abaixo e as mudanças discutidas logo após.
 
 **Linux ou Windows (Docker Toolbox):**
 
@@ -254,7 +254,7 @@ docker start <name|id>
 docker attach <name|id>
 ```
 
-* `-it`: Faz com que o *container* seja lançado de maneira interativa (*shell*).
+* `-it`: Faz com que o *container* seja lançado de maneira interativa (interpretando comandos).
 
 * `<comando>`: A alteração do comando para `/bin/bash` complementa o lançamento do *container* de maneira interativa.
 
