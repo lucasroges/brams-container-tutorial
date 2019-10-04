@@ -50,13 +50,19 @@ Antes de abordarmos os conceitos do Docker e executarmos o *container*, vamos fi
 
 #### Docker image
 
-Baixe a imagem existente do BRAMS (versão 5.3), utilizando o comando abaixo:
+Baixe a imagem existente do BRAMS (versão 5.3), utilizando o comando abaixo em um dos ambientes que seguem, de acordo com a plataforma:
+
+- Linux: Terminal
+- Windows 10 64-bit (Pro, Enterprise, or Education): Windows PowerShell
+- Windows (versões mais antigas - Docker Toolbox): Docker Quickstart Terminal
 
 ```
 docker pull lraraujo/brams:5.3
 ```
 
 O conceito de imagem será abordado na sequência, por enquanto apenas precisamos que ela esteja disponível na máquina.
+
+Em relação ao terminal utilizado para o comando anterior, será sempre o mesmo para execução de outros comandos.
 
 #### Caso de teste
 
