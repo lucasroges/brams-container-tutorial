@@ -126,8 +126,24 @@ Nesse tópico, será explorado a execução do BRAMS em um único *host*, seja l
 
 Para executar uma imagem em um único *container*, utilizamos o comando `docker run`. Em nosso caso, ele será seguido de alguns parâmetros e o comando que será executado ao inicializar o *container*. Esse comando vai sobrepor o comando definido no Dockerfile (`sshd`, útil para o caso *multi-host*). Abaixo encontra-se o comando utilizado e os detalhes de cada parâmetro utilizado.
 
+Linux ou Windows (Docker Toolbox):
+
+No Windows, utilizar o Docker Quickstart Terminal.
+
 ```
 docker run --rm -v /absolute/path/to/datain:/root/bin/datain -v /absolute/path/to/dataout:/root/bin/dataout -v /absolute/path/to/shared_datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /root/run-brams -np <number of processes> -testcase <chosen testcase> -hosts localhost:<number of processes>
+```
+
+Windows 10 64-bit: Pro, Enterprise, or Education:
+
+Acessar este [link](https://docs.docker.com/docker-for-windows/#shared-drives) e seguir as instruções para compartilhar o disco local com os *containers*. É necessário para utilização dos *volumes*.
+
+Em relação a uma das configurações solicitadas durante a instalação, havia uma escolha entre *Windows containers* e *Linux containers*. Para execução do modelo, a escolha a ser feita é *Linux containers*. Caso a escolha tenha sido a outra, segue o [link](https://docs.docker.com/docker-for-windows/#switch-between-windows-and-linux-containers) com instruções para realizar a troca após a instalação.
+
+Para execução do comando abaixo, utilizar o Microsoft PowerShell.
+
+```
+docker run --rm -v c:/path/to/datain:/root/bin/datain -v c:/path/to/datain:/root/bin/dataout -v c:/path/to/datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /root/run-brams -np <number of processes> -testcase <chosen testcase> -hosts localhost:<number of processes>
 ```
 
 #### Parâmetros:
@@ -207,14 +223,22 @@ Como um dos intuitos da criação desse ambiente de execução para o BRAMS é a
 
 Para tal, o código fonte pode ser editado externamente ao *container* e, ao concluir essa etapa, basta comprimir os arquivos necessários, que encontram-se listados no [Dockerfile](files/Dockerfile#L70).
 
-Com o arquivo comprimido, a imagem pode ser construída utilizando o Dockerfile. Caso uma imagem semelhante já tenha sido construída, o Docker salva o contexto de construção até o ponto em que o Dockerfile ou arquivos a serem copiados foram alterados, evitando que todos os passos anteriores a isso precisem ser realizados novamente. Após a construção, a imagem estará pronta para execução.
+Com o arquivo comprimido, a imagem pode ser construída utilizando o Dockerfile. Como abordado anteriormente, a imagem é composta por camadas. Casos as camadas da nova imagem tenham conteúdo compatível com camadas de imagens já instaladas na máquina do usuário, o Docker utiliza esse conteúdo já existente, **diminuindo o tempo de construção** e evitando manter conteúdo duplicado, visto que apenas as camadas novas serão armazenadas nesse novo processo de construção e as antigas são reutilizadas.
 
 ### Dentro do *container*
 
 É possível utilizar o *container* de maneira interativa, como um `bash`, para utilização interna. Para tal, é necessário fazer pequenas alterações no comando `docker run`. O comando é apresentado abaixo e as mudanças discutidas logo após.
 
+Linux ou Windows (Docker Toolbox):
+
 ```
 docker run -it -v /absolute/path/to/datain:/root/bin/datain -v /absolute/path/to/dataout:/root/bin/dataout -v /absolute/path/to/shared_datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /bin/bash
+```
+
+Windows 10 64-bit: Pro, Enterprise, or Education:
+
+```
+docker run -it -v c:/path/to/datain:/root/bin/datain -v c:/path/to/dataout:/root/bin/dataout -v c:/path/to/shared_datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /bin/bash
 ```
 
 Para copiar um código fonte específico para o *container*, é possível utilizar o comando `docker cp` seguindo a [documentação](https://docs.docker.com/engine/reference/commandline/cp/) do comando. A partir disso, ele pode ser editado, compilado e executado dentro desse ambiente.
