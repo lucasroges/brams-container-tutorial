@@ -126,7 +126,7 @@ Nesse tópico, será explorado a execução do BRAMS em um único *host*, seja l
 
 Para executar uma imagem em um único *container*, utilizamos o comando `docker run`. Em nosso caso, ele será seguido de alguns parâmetros e o comando que será executado ao inicializar o *container*. Esse comando vai sobrepor o comando definido no Dockerfile (`sshd`, útil para o caso *multi-host*). Abaixo encontra-se o comando utilizado e os detalhes de cada parâmetro utilizado.
 
-Linux ou Windows (Docker Toolbox):
+**Linux ou Windows (Docker Toolbox):**
 
 No Windows, utilizar o Docker Quickstart Terminal.
 
@@ -134,7 +134,7 @@ No Windows, utilizar o Docker Quickstart Terminal.
 docker run --rm -v /absolute/path/to/datain:/root/bin/datain -v /absolute/path/to/dataout:/root/bin/dataout -v /absolute/path/to/shared_datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /root/run-brams -np <number of processes> -testcase <chosen testcase> -hosts localhost:<number of processes>
 ```
 
-Windows 10 64-bit: Pro, Enterprise, or Education:
+**Windows 10 64-bit: Pro, Enterprise, or Education:**
 
 Acessar este [link](https://docs.docker.com/docker-for-windows/#shared-drives) e seguir as instruções para compartilhar o disco local com os *containers*. É necessário para utilização dos *volumes*.
 
@@ -229,13 +229,13 @@ Com o arquivo comprimido, a imagem pode ser construída utilizando o Dockerfile.
 
 É possível utilizar o *container* de maneira interativa, como um `bash`, para utilização interna. Para tal, é necessário fazer pequenas alterações no comando `docker run`. O comando é apresentado abaixo e as mudanças discutidas logo após.
 
-Linux ou Windows (Docker Toolbox):
+**Linux ou Windows (Docker Toolbox):**
 
 ```
 docker run -it -v /absolute/path/to/datain:/root/bin/datain -v /absolute/path/to/dataout:/root/bin/dataout -v /absolute/path/to/shared_datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /bin/bash
 ```
 
-Windows 10 64-bit: Pro, Enterprise, or Education:
+**Windows 10 64-bit: Pro, Enterprise, or Education:**
 
 ```
 docker run -it -v c:/path/to/datain:/root/bin/datain -v c:/path/to/dataout:/root/bin/dataout -v c:/path/to/shared_datain:/root/bin/shared_datain --name brams lraraujo/brams:5.3 /bin/bash
