@@ -2,6 +2,16 @@
 
 Nesse tutorial, cobriremos tópicos acerca da execução do BRAMS em um ambiente de *containers*, incluindo a instalação do Docker, preparação do ambiente, recursos do Docker utilizados e a execução do modelo nesse ambiente, utilizando um ou múltiplos *hosts*.
 
+## Tópicos
+
+* [Introdução](#introdução)
+* [Preparação do ambiente](#preparação-do-ambiente)
+* [BRAMS em *containers*](#brams-em-containers)
+* [Executando em um único host](#executando-em-um-único-host)
+* [Executando em múltiplos hosts](#executando-em-múltiplos-hosts)
+* [Docker como ambiente de testes](#docker-como-ambiente-de-testes)
+* [Docker em GUIs](#docker-em-guis)
+
 ## Introdução
 
 O Docker é uma plataforma que oferece diversos recursos para organizar e executar aplicações em *containers*.
@@ -294,3 +304,75 @@ Para importar e executar (importa os dados do arquivo compactado para criar uma 
 zcat <name>.gz | docker import - <name>
 docker run -it <name> /bin/bash
 ```
+
+## Docker em GUIs
+
+Uma possibilidade que pode facilitar ainda mais o uso de *containers* é a utilização de uma GUI (Graphic User Interface), uma interface visual para o gerenciamento de aplicações nesse ambiente.
+
+### Portainer
+
+Entre as possibilidades, vamos abordar a utilização do [Portainer](https://www.portainer.io/), que é uma interface executada através de um *container* e é acessada via web. A utilização dessa ferramenta foi testada em ambiente Windows (com Docker Toolbox) e ambiente Linux.
+
+#### Executando o Portainer
+
+Essa aplicação é executada através de um *container*. Para iniciá-la, basta executar os comandos abaixo em um terminal.
+
+```
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+```
+
+Para verificar se a aplicação está em funcionamento, basta utilizar o comando `docker ps` e checar se o *container* está ativo. Em caso positivo, podemos acessar a aplicação.
+
+No Linux, basta abrir um navegador e acessar `localhost:9000`.
+
+Para usuários do Docker Toolbox, será necessário executar o comando abaixo para obter o endereço a ser utilizado para acessar a aplicação. Esse endereço aparecerá na tela, logo abaixo do comando, onde encontra-se `<saída>`.
+
+```
+docker-machine ip default
+<saída>
+```
+
+A partir de então, o acesso pode ser feito via navegador utilizando `<saída>:9000`.
+
+#### Autenticação
+
+Ao entrar no endereço que consta acima, a tela abaixo será carregada.
+
+![gui-login](figures/gui-login.gif)
+
+Seguindo as instruções da imagem acima, crie um usuário (o nome pode ser alterado para algum de sua preferência) e uma senha. Esses dados serão utilizados sempre que o *container* do Portainer for inicializado e a página carregada pra utilizar a aplicação. Após a inserção dos dados, seguimos para a próxima etapa.
+
+![gui-env](figures/gui-env.gif)
+
+Assim como na imagem acima, selecionar o ambiente local, pois é nele que queremos configurar e executar o *container* do BRAMS.
+
+![gui-dashboard](figures/gui-dashboard.gif)
+
+Agora, a partir da página inicial, mostrada na figura acima, podemos explorar as utilidades do Portainer.
+
+#### Obtendo imagem
+
+Caso a imagem do BRAMS ainda não tenha sido obtida via linha de comando, como mostrado anteriormente no tutorial, é possível obtê-la via Portainer. Para tal, é possível utilizar o Docker Hub ou criar uma imagem através de um Dockerfile.
+
+##### Docker Hub
+
+O gif abaixo mostra como obter a imagem publicada no Docker Hub. Após clicar em `Pull the image`, basta aguardar para que a imagem apareça logo abaixo, após a conclusão do *download*.
+
+<!-- gif -->
+
+##### Dockerfile
+
+Para construir uma imagem utilizado um Dockerfile, basta seguir os passos do gif abaixo e aguardar a finalização do processo para utilizá-la.
+
+<!---->
+
+#### Configurando container para execução
+
+Após a obtenção da imagem, podemos configurar um novo *container* para executar o BRAMS. Para tal, basta seguir os passos do gif abaixo.
+
+<!---->
+
+#### Pós-execução
+
+Durante a execução do *container* não há com o que se preocupar, tudo ocorrerá em *background*. Para verificar o andamento da execução, é possível visualizar o *log*. Esse *log* está sendo constantemente atualizado e ficará disponível após a execução do *container*. Após a execução, tanto o *log*, como outras informações (comando utilizado, *volumes*, etc) podem ser verificadas na página do *container*. Por fim, os arquivos de saída estarão no diretório informado ao configurar os *volumes* para execução do *container*.
