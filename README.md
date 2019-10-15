@@ -359,19 +359,19 @@ Caso a imagem do BRAMS ainda não tenha sido obtida via linha de comando, como m
 
 O gif abaixo mostra como obter a imagem publicada no Docker Hub. Após clicar em `Pull the image`, basta aguardar para que a imagem apareça logo abaixo, após a conclusão do *download*.
 
-<!-- gif -->
+![gui-pull](figures/gui-pull.gif)
 
 ##### Dockerfile
 
 Para construir uma imagem utilizado um Dockerfile, basta seguir os passos do gif abaixo e aguardar a finalização do processo para utilizá-la.
 
-<!---->
+![gui-build](figures/gui-build.gif)
 
 #### Configurando container para execução
 
 Após a obtenção da imagem, podemos configurar um novo *container* para executar o BRAMS. Para tal, basta seguir os passos do gif abaixo.
 
-<!---->
+![gui-run](figures/gui-run.gif)
 
 #### Pós-execução
 
