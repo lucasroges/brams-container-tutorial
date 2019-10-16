@@ -341,15 +341,15 @@ Ao entrar no endereço que consta acima, a tela abaixo será carregada.
 
 ![gui-login](figures/gui-login.gif)
 
-Seguindo as instruções da imagem acima, crie um usuário (o nome pode ser alterado para algum de sua preferência) e uma senha. Esses dados serão utilizados sempre que o *container* do Portainer for inicializado e a página carregada pra utilizar a aplicação. Após a inserção dos dados, seguimos para a próxima etapa.
+* Seguindo as instruções da imagem acima, crie um usuário (o nome pode ser alterado para algum de sua preferência) e uma senha. Esses dados serão utilizados sempre que o *container* do Portainer for inicializado e a página carregada pra utilizar a aplicação. Após a inserção dos dados, seguimos para a próxima etapa.
 
 ![gui-env](figures/gui-env.gif)
 
-Assim como na imagem acima, selecionar o ambiente local, pois é nele que queremos configurar e executar o *container* do BRAMS.
+* Assim como na imagem acima, selecionar o ambiente local, pois é nele que queremos configurar e executar o *container* do BRAMS.
 
 ![gui-dashboard](figures/gui-dashboard.gif)
 
-Agora, a partir da página inicial, mostrada na figura acima, podemos explorar as utilidades do Portainer.
+* Agora, a partir da página inicial, mostrada na figura acima, podemos explorar as utilidades do Portainer.
 
 #### Obtendo imagem
 
