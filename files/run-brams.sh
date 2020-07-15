@@ -2,7 +2,7 @@
 #
 # Script to run the test cases
 #
-# Example 
+# Example
 # ./run-brams -np 4 -testcase meteo-chem
 # ./run-brams -np 8 -hosts machine1:4,machine2:4
 #
@@ -73,7 +73,7 @@ cat $HOME/hosts
 # Execute test case assigned in the parameters
 
 cd $HOME/bin && rm -rf tmp/ && \
-	mkdir ./tmp && export TMPDIR=./tmp && ulimit -s 65536 && export LD_LIBRARY_PATH=/usr/local/lib && \
+	mkdir ./tmp && export TMPDIR=./tmp && ulimit -s 65536 && export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH && \
 	/opt/mpich3/bin/mpirun -hostfile $HOME/hosts -np $nprocs ./brams-5.3 -f RAMSIN_${test_case}
 
 
@@ -88,5 +88,5 @@ if [ $exit_code -eq 0 ]; then
 else
 
 	echo "Execution finished with error!"
-	echo "Application exited with code $exit_code" 
+	echo "Application exited with code $exit_code"
 fi

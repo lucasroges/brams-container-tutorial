@@ -1,5 +1,5 @@
 # OS
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Install Fortran & C Compilers and autoconf
 RUN cd $HOME && mkdir install && apt-get update && apt-get -y install build-essential gfortran m4 wget
@@ -75,7 +75,7 @@ RUN cd $HOME && tar -zxvf brams.tgz && cd BRAMS && sed -i 's/ICFILEPREFIX/ICFILE
 	./configure -program-prefix=BRAMS -prefix=$HOME -enable-jules -with-chem=RELACS_TUV -with-aer=SIMPLE -with-fpcomp=/opt/mpich3/bin/mpif90 -with-cpcomp=/opt/mpich3/bin/mpicc -with-fcomp=gfortran -with-ccomp=gcc --with-wgrib2=/opt/grib2/lib --with-netcdf=/usr/local/ && make && make install
 
 # Copy script to container
-COPY run-brams /root
+COPY run-brams.sh /root/run-brams
 
 # Clean up unnecessary files and give execution permission to script
 RUN cd $HOME && rm -rf install/ BRAMS/ && apt-get autoremove && apt-get clean && chmod +x run-brams
